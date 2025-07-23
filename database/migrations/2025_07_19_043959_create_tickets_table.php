@@ -15,17 +15,16 @@ return new class extends Migration
             $table->id();
 
             $table->string('title')->comment('Título del ticket');
-            $table->enum('type_designation', ['project', 'subproject'])->comment('Tipo de ticket: proyecto o subproyecto');
             $table->enum('type', ['bug', 'feature_request', 'support'])->default('support')->comment('Tipo de ticket: bug, solicitud de característica o soporte');
             $table->text('description')->comment('Descripción del ticket');
             $table->enum('status', ['open', 'in_progress', 'stop', 'closed'])->default('open')->comment('Estado del ticket: abierto, en progreso, cerrado');
             $table->enum('priority', ['low', 'medium', 'high'])->default('medium')->comment('Prioridad del ticket: baja, media, alta');
 
 
-            $table->date('start_date')->comment('Fecha de inicio del ticket');
+            $table->date('start_date')->nullable()->comment('Fecha de inicio del ticket');
             $table->date('end_date')->nullable()->comment('Fecha de finalización del ticket');
-
             $table->timestamp('closed_at')->nullable()->comment('Fecha y hora de cierre del ticket');
+
             // Relaciones
             $table->foreignId('client_id')->constrained('clients')->onDelete('cascade')->comment('ID del cliente relacionado con el ticket');
             // Relación polimórfica (puede ser proyecto o subproyecto)

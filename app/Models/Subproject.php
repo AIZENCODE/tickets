@@ -8,6 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class Subproject extends Model
 {
     use HasFactory;
+
+    protected $table = 'sub_projects';
+
     protected $fillable = [
         'name',
         'description',

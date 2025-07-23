@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('phone')->nullable()->comment('Teléfono del cliente');
 
             // Relaciones
-            $table->foreignId('user_count_id')->nullable()->constrained()->onDelete('set null')->comment('ID del usuario asociado al cliente');
+            $table->foreignId('user_count_id')->nullable()->constrained('users')->onDelete('set null')->comment('ID del usuario asociado al cliente');
 
             // Auditoria
             $table->foreignId('user_id')->nullable()->constrained('users')->onDelete('set null')->comment('ID del usuario que creó el cliente');

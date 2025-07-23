@@ -19,6 +19,7 @@ return new class extends Migration
 
 
             $table->boolean('is_responsible')->default(false)->comment('Indica si el usuario es el responsable del ticket');
+            $table->unique(['ticket_id', 'user_id'], 'ticket_user_unique'); // Asegura que un usuario no pueda estar asociado al mismo ticket más de una vez
 
             $table->timestamps();
         });

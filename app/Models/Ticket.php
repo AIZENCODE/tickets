@@ -15,7 +15,7 @@ class Ticket extends Model
 
     protected $fillable = [
         'title',
-        'type_designation',
+
         'type',
         'description',
         'status',
@@ -61,5 +61,10 @@ class Ticket extends Model
         return $this->belongsToMany(User::class)
             ->withPivot('is_responsible')
             ->withTimestamps();
+    }
+
+    public function documents()
+    {
+        return $this->hasMany(Document::class);
     }
 }

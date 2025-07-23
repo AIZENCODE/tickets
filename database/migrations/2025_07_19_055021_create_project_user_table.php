@@ -19,6 +19,8 @@ return new class extends Migration
 
             $table->boolean('is_responsible')->default(false)->comment('Indica si el usuario es el responsable del proyecto');
 
+            $table->unique(['project_id', 'user_id'], 'project_user_unique'); // Asegura que un usuario no pueda estar asociado al mismo proyecto más de una vez
+
             $table->timestamps();
         });
     }

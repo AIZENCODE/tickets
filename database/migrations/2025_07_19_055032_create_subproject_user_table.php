@@ -18,6 +18,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade')->comment('ID del usuario asociado al subproyecto');
 
             $table->boolean('is_responsible')->default(false)->comment('Indica si el usuario es el responsable del subproyecto');
+            $table->unique(['subproject_id', 'user_id'], 'subproject_user_unique'); // Asegura que un usuario no pueda estar asociado al mismo subproyecto más de una vez
 
             $table->timestamps();
         });
