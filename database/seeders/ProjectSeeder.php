@@ -15,6 +15,8 @@ class ProjectSeeder extends Seeder
     public function run(): void
     {
 
+        $this->command->info('Seeding projects...');
+
         Project::create([
             'name' => 'Agrojabas',
             'description' => 'Este es un proyecto de ejemplo para demostrar la funcionalidad del sistema.',

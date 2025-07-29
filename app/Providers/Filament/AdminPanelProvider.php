@@ -8,6 +8,7 @@ use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
 use Filament\Pages;
+use App\Filament\Pages\Auth\Login;
 use Filament\Panel;
 use Filament\PanelProvider;
 use Filament\Support\Colors\Color;
@@ -27,8 +28,8 @@ class AdminPanelProvider extends PanelProvider
             ->default()
             ->id('admin')
             ->path('admin')
-            ->login()
-
+            // ->login()
+            ->login(Login::class)
             ->sidebarCollapsibleOnDesktop()    // Que se pueda colapsar en escritorio
             ->darkMode(true) // 👈 Habilitar modo oscuro
             ->favicon(asset('/images/icos/icono.ico')) // Icono pages
