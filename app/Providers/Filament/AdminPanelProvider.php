@@ -28,8 +28,17 @@ class AdminPanelProvider extends PanelProvider
             ->id('admin')
             ->path('admin')
             ->login()
+
+            ->sidebarCollapsibleOnDesktop()    // Que se pueda colapsar en escritorio
+            ->darkMode(true) // 👈 Habilitar modo oscuro
+            ->favicon(asset('/images/icos/icono.ico')) // Icono pages
+            ->brandLogo(asset('images/logos/logo_horizontal.svg')) // 👈 Logo principal
+            ->darkModeBrandLogo(asset('images/logos/logo_horizontal_blanco.svg'))
+            ->brandName('Bluebox')        // 👈 Texto al lado del logo (opcional)
+            // ->login(SimpleLogin::class) // 👈 Página de login personalizada
+
             ->colors([
-                'primary' => Color::Amber,
+                'primary' => Color::Blue,
             ])
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')

@@ -24,6 +24,9 @@ class UserSeeder extends Seeder
             'name' => 'super_admin',
             // 'guard_name' => 'web' // Asegúrate de incluir esto
         ]);
+
+        $roleSuperAdmin->givePermissionTo(['create', 'read', 'update', 'delete']); // Asigna permisos al rol super_admin
+
         $roleDesarrollador = Role::firstOrCreate([
             'name' => 'Desarrollador',
             // 'guard_name' => 'web' // Asegúrate de incluir esto
