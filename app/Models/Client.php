@@ -26,7 +26,7 @@ class Client extends Model
 
     public function user()
     {
-        return $this->hasOne(User::class,'user_count_id');
+        return $this->belongsTo(User::class, 'user_count_id');
     }
 
     public function projects()
@@ -34,5 +34,13 @@ class Client extends Model
         return $this->hasMany(Project::class);
     }
 
+    public function createdBy()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
 
+    public function updatedBy()
+    {
+        return $this->belongsTo(User::class, 'updated_by');
+    }
 }

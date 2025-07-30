@@ -50,6 +50,7 @@ class User extends Authenticatable
     /**
      * Get the clients associated with the user.
      */
+
     public function client()
     {
         return $this->belongsTo(Client::class);
@@ -178,6 +179,4 @@ class User extends Authenticatable
     {
         return $this->hasMany(Comment::class, 'updated_by');
     }
-
-
 }

@@ -45,6 +45,12 @@ class Ticket extends Model
         return $this->belongsTo(Client::class);
     }
 
+    public function scopeForClient($query, $clientId)
+    {
+        return $query->where('client_id', $clientId);
+    }
+
+
     // Relación con el usuario creador
     public function user()
     {

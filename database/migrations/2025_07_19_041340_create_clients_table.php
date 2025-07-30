@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
 
             $table->string('name')->comment('Nombre del cliente');
-            $table->enum('type', ['persona', 'empresa'])->unique()->comment('Tipo de cliente: persona o empresa');
+             $table->enum('type', ['empresa', 'individual', 'gobierno', 'ong'])->comment('Tipo de cliente: persona o empresa');
             $table->string('email')->unique()->comment('Correo electrónico del cliente');
             $table->string('phone')->nullable()->comment('Teléfono del cliente');
 

@@ -67,7 +67,13 @@ class UserResource extends Resource
                         Forms\Components\TextInput::make('password')
                             ->label('Contraseña')
                             ->password()
-                            ->required(),
+                            ->dehydrated(fn($state) => filled($state)) // Solo mantiene el valor si se llenó
+                            ->nullable() // Permite valores nulos
+                            ->rule('nullable|min:6') // Reglas de validación
+                            ->helperText('Dejar en blanco para mantener la contraseña actual')
+                            ->confirmed() // Opcional: si tienes confirmación de contraseña
+                            ->maxLength(255)
+                            ->required(fn(string $operation): bool => $operation === 'create'), // Solo requerido en creación
                     ])->columns(2),
 
             ]);
@@ -78,8 +84,10 @@ class UserResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('name')
+                    ->label('Nombre')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('email')
+                    ->label('Email o usuario')
                     ->searchable(),
 
                 Tables\Columns\TextColumn::make('roles.name')

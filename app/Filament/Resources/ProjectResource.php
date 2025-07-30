@@ -47,7 +47,7 @@ class ProjectResource extends Resource
                         Select::make('client_id')
                             ->label('Cliente')
                             ->relationship('client', 'name')
-                            ->preload( )
+                            ->preload()
                             ->searchable()
                             ->required()
                             ->columnSpanFull(),
@@ -68,14 +68,49 @@ class ProjectResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('name')
-                    ->searchable(),
+                    ->label('Nombre')
+                    ->sortable()
+                    ->searchable()
+                    ->weight('bold'),
 
+                Tables\Columns\TextColumn::make('client.name')
+                    ->label('Cliente')
+                    ->sortable()
+                    ->searchable()
+                    ->visible(fn() => !auth()->user()->hasRole('Cliente'))  // Solo visible si NO es Cliente
+                    ->badge()
+                    ->color('primary'),
 
+                Tables\Columns\TextColumn::make('subprojects_count')
+                    ->label('Subproyectos')
+                    ->counts('subprojects')
+                    ->badge()
+                    ->color('success'),
+
+                Tables\Columns\TextColumn::make('users_count')
+                    ->label('Usuarios')
+                    ->counts('users')
+                    ->badge()
+                    ->visible(fn() => !auth()->user()->hasRole('Cliente'))  // Solo visible si NO es Cliente
+                    ->color('info'),
+
+                // Tables\Columns\TextColumn::make('created_at')
+                //     ->label('Creado')
+                //     ->dateTime('d/m/Y')
+                //     ->sortable()
+                //     ->toggleable(isToggledHiddenByDefault: true),
+
+                // Tables\Columns\TextColumn::make('updated_at')
+                //     ->label('Actualizado')
+                //     ->dateTime('d/m/Y')
+                //     ->sortable()
+                //     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
                 //
             ])
             ->actions([
+                Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([
@@ -98,7 +133,22 @@ class ProjectResource extends Resource
         return [
             'index' => Pages\ListProjects::route('/'),
             'create' => Pages\CreateProject::route('/create'),
+            'view' => Pages\ViewProject::route('/{record}'),
             'edit' => Pages\EditProject::route('/{record}/edit'),
         ];
+    }
+
+    public static function getEloquentQuery(): Builder
+    {
+        $query = parent::getEloquentQuery();
+
+        // Si el usuario es Cliente, filtrar solo sus proyectos
+        if (auth()->check() && auth()->user()->hasRole('Cliente')) {
+            return $query->whereHas('client', function ($q) {
+                $q->where('user_count_id', auth()->id());
+            });
+        }
+
+        return $query;
     }
 }

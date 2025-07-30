@@ -5,6 +5,7 @@ namespace App\Filament\Resources\RoleResource\Pages;
 use App\Filament\Resources\RoleResource;
 use BezhanSalleh\FilamentShield\Support\Utils;
 use Filament\Actions;
+use Filament\Notifications\Notification;
 use Filament\Resources\Pages\EditRecord;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
@@ -17,9 +18,26 @@ class EditRole extends EditRecord
 
     protected function getActions(): array
     {
-        return [
-            Actions\DeleteAction::make(),
-        ];
+       return [
+        Actions\DeleteAction::make()
+            ->visible(function ($record) {
+                $protectedRoles = ['super_admin', 'Cliente', 'Desarrollador', 'Administrador', 'Asignador'];
+                return !in_array($record->name, $protectedRoles);
+            })
+            ->before(function ($record) {
+                $protectedRoles = ['super_admin', 'Cliente', 'Desarrollador', 'Administrador', 'Asignador'];
+
+                if (in_array($record->name, $protectedRoles)) {
+                    Notification::make()
+                        ->title('Acción no permitida')
+                        ->body('No puedes eliminar roles del sistema')
+                        ->danger()
+                        ->send();
+
+                    $this->halt();
+                }
+            })
+    ];
     }
 
     protected function mutateFormDataBeforeSave(array $data): array
